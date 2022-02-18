@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+{% block header %}
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="{{'/'}}">Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('page_get') }}">All posts</a>
+        </li>
+    </ul>
+{% endblock %}

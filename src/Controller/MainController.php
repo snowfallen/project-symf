@@ -10,10 +10,21 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/', name: 'main.')]
+#[Route('/', name: 'page_')]
 class MainController extends AbstractController
 {
 
+
+    #[Route('/', name: "root")]
+    public function redirecting(){
+        return $this->redirectToRoute('page_home');
+    }
+    #[Route('/home', name: "home")]
+    public function home()
+    {
+        return $this->render('home/index.html.twig', [
+        ]);
+    }
 
     #[Route('/create', name: 'post')]
     public function Post(ManagerRegistry $doctrine)

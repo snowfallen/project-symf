@@ -4,7 +4,7 @@
 {% block body %}
     <ul>
         {% for post in posts  %}
-            <li><a href="{{ path('main.show',{id: post.id}) }}">{{ post.title }}</a></li>
+            <li><a href="{{ path('page_show',{id: post.id}) }}">{{ post.title }}</a></li>
         {% endfor %}
     </ul>
 {% endblock %}
