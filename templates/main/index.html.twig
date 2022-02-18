@@ -2,9 +2,15 @@
 
 {% block title %}All posts{% endblock %}
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="flash-notice">
+            {{ message }}
+        </div>
+    {% endfor %}
     <ul>
         {% for post in posts  %}
             <li><a href="{{ path('page_show',{id: post.id}) }}">{{ post.title }}</a></li>
+            <li><a class="text-danger" href="{{ path('page_delete',{id: post.id}) }}">Delete</a></li>
         {% endfor %}
     </ul>
 {% endblock %}

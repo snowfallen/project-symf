@@ -40,7 +40,7 @@ class MainController extends AbstractController
         //push
         $em->flush();
 
-        return new Response();
+        return $this->redirect($this->generateUrl('page_get'));
     }
 
     #[Route('/get', name: 'get')]
@@ -60,5 +60,18 @@ class MainController extends AbstractController
         return $this->render('show/show.html.twig',[
             'post' => $post,
         ]);
+    }
+
+    #[Route('/delete/{id}',name: "delete")]
+    public function remove(Test $test,ManagerRegistry $doctrine)
+    {
+        $em = $doctrine->getManager();
+
+        $em->remove($test);
+        $em->flush();
+
+        $this->addFlash('success','Post was removed');
+
+        return $this->redirect($this->generateUrl('page_get'));
     }
 }
