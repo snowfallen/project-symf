@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\TestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Test;
@@ -14,7 +15,7 @@ class MainController extends AbstractController
 {
 
 
-    #[Route('/create', name: 'name')]
+    #[Route('/create', name: 'post')]
     public function Post(ManagerRegistry $doctrine)
     {
         //create a new  post with title
@@ -29,5 +30,15 @@ class MainController extends AbstractController
         $em->flush();
 
         return new Response();
+    }
+
+    #[Route('/get', name: 'get')]
+    public function Get(TestRepository $testRepository)
+    {
+        $posts = $testRepository->findAll();
+        dump($posts);
+        /*return $this->render('main/index.html.twig',[
+            'posts' => $posts,
+        ]);*/
     }
 }
