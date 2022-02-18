@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Form\PostType;
 use App\Repository\TestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,20 +28,30 @@ class MainController extends AbstractController
     }
 
     #[Route('/create', name: 'post')]
-    public function Post(ManagerRegistry $doctrine)
+    public function Post(ManagerRegistry $doctrine,Request $request)
     {
         //create a new  post with title
         $post = new Test();
-        $post->setTitle('New Title');
 
+        $form = $this->createForm(PostType::class,$post);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted()){
+            $em = $doctrine->getManager();
+            $em->flush();
+            dump($post);
+        }
         // entity manager
-        $em = $doctrine->getManager();
+        //$em = $doctrine->getManager();
         //upload
-        $em->persist($post);
+        //$em->persist($post);
         //push
-        $em->flush();
+        //$em->flush();
 
-        return $this->redirect($this->generateUrl('page_get'));
+        return $this->render('create/create.html.twig',[
+            'form' => $form->createView()
+        ]);
+        //return $this->redirect($this->generateUrl('page_get'));
     }
 
     #[Route('/get', name: 'get')]

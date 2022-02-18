@@ -3,7 +3,7 @@
 {% block title %}All posts{% endblock %}
 {% block body %}
     {% for message in app.flashes('success') %}
-        <div class="flash-notice">
+        <div class="alert alert-success">
             {{ message }}
         </div>
     {% endfor %}
