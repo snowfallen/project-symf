@@ -22,9 +22,9 @@ class RegistrationController extends AbstractController
     {
 
         //form for login
-        $form = $this->createFormBuilder()
-            ->add('username')
-            ->add('password',RepeatedType::class,[
+        $form = $this->createFormBuilder()  //forms field
+            ->add('username') //add new field into forms
+            ->add('password',RepeatedType::class,[ //add new field into forms with some parameters
                 'type' => PasswordType::class,
                 'required' => true,
                 'first_options' => ['label'=>'Password'],
@@ -35,23 +35,23 @@ class RegistrationController extends AbstractController
                     'class' => 'btn-success float-end m-2'
                 ]
             ])
-            ->getForm();
-        $form ->handleRequest($request);
+            ->getForm(); // we will get form
+        $form ->handleRequest($request); // was called for processing forms data
 
         if($form->isSubmitted()){
-            $data = $form->getData();
+            $data = $form->getData(); //get data from form
             $user = new User();
-            $user->setUsername($data['username']);
-            $user->setPassword($passwordHasher->hashPassword($user,$data['password']));
-            $em = $doctrine->getManager();
+            $user->setUsername($data['username']); // get username from arr data by key-words
+            $user->setPassword($passwordHasher->hashPassword($user,$data['password'])); // get password and hash them
+            $em = $doctrine->getManager(); // get doctrine manager
 
-            $em->persist($user);
-            $em->flush();
+            $em->persist($user); // pass object for processing
+            $em->flush(); // push all changes to database
             return $this->redirect($this->generateUrl('app_login'));
         }
 
         return $this->render('registration/index.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView() // create elements
         ]);
     }
 }

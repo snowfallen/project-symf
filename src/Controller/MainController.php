@@ -28,47 +28,40 @@ class MainController extends AbstractController
     }
 
     #[Route('/create', name: 'post')]
-    public function Post(ManagerRegistry $doctrine,Request $request)
+    public function Post(ManagerRegistry $doctrine,Request $request) //get ManagerRegistry for future getting doctrine
     {
         //create a new  post with title
-        $post = new Test();
+        $post = new Test(); // Test is the entity class
 
-        $form = $this->createForm(PostType::class,$post);
+        $form = $this->createForm(PostType::class,$post); // PostType that is my form with input field
 
-        $form->handleRequest($request);
-        if ($form->isSubmitted()){
-            $em = $doctrine->getManager();
-            $em->persist($post);
-            $em->flush();
+        $form->handleRequest($request); // was called for processing forms data
+        if ($form->isSubmitted()){  //check is forms was submitted
+            $em = $doctrine->getManager(); // get manager for works with doctrine
+            $em->persist($post); // pass object for processing
+            $em->flush(); // pass data(all changes) to entity(database)
             return $this->redirect($this->generateUrl('page_get'));
         }
-        // entity manager
-        //$em = $doctrine->getManager();
-        //upload
-
-        //push
-        //$em->flush();
 
         return $this->render('create/create.html.twig',[
-            'form' => $form->createView()
+            'form' => $form->createView()  // create element
         ]);
         //return $this->redirect($this->generateUrl('page_get'));
     }
 
     #[Route('/get', name: 'get')]
-    public function Get(TestRepository $testRepository)
+    public function Get(TestRepository $testRepository)//get repository
     {
-        $posts = $testRepository->findAll();
-        //dump($posts);
+        $posts = $testRepository->findAll(); // find and get all elements in repo
         return $this->render('main/index.html.twig',[
             'posts' => $posts,
         ]);
     }
 
     #[Route('/show/{id}',name: "show")]
-    public function show($id , TestRepository $testRepository)
+    public function show($id , TestRepository $testRepository) // we must get id into the function variable
     {
-        $post = $testRepository->find($id);
+        $post = $testRepository->find($id);// find and get all elements in repo by id
         return $this->render('show/show.html.twig',[
             'post' => $post,
         ]);
@@ -77,12 +70,12 @@ class MainController extends AbstractController
     #[Route('/delete/{id}',name: "delete")]
     public function remove(Test $test,ManagerRegistry $doctrine)
     {
-        $em = $doctrine->getManager();
+        $em = $doctrine->getManager(); // get manager for works with doctrine
 
-        $em->remove($test);
-        $em->flush();
+        $em->remove($test); // remove elements
+        $em->flush(); // push all changes to database
 
-        $this->addFlash('success','Post was removed');
+        $this->addFlash('success','Post was removed'); // Flash massage
 
         return $this->redirect($this->generateUrl('page_get'));
     }
