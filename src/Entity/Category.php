@@ -72,4 +72,8 @@ class Category
 
         return $this;
     }
+    public function __toString() // must return a string
+    {
+        return $this->name;
+    }
 }
