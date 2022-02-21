@@ -28,6 +28,7 @@
         "symfony/security-csrf": "6.0.*",
         "symfony/twig-bundle": "6.0.*",
         "symfony/validator": "6.0.*",
+        "symfony/web-profiler-bundle": "6.0.*",
         "symfony/yaml": "6.0.*"
     },
     "config": {
@@ -80,5 +81,8 @@
             "allow-contrib": false,
             "require": "6.0.*"
         }
+    },
+    "require-dev": {
+        "symfony/stopwatch": "6.0.*"
     }
 }
