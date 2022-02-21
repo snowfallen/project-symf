@@ -2,5 +2,6 @@
 
 {% block title %}Your Post{% endblock %}
 {% block body %}
-   {{ post.title }}
+   <h2>{{ post.title }}</h2>
+   <img src="{{ '/uploads/' ~ post.image }}" alt="some image">
 {% endblock %}

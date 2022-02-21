@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Form\PostType;
 use App\Repository\TestRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Test;
 use Doctrine\Persistence\ManagerRegistry;
@@ -30,14 +31,25 @@ class MainController extends AbstractController
     #[Route('/create', name: 'post')]
     public function Post(ManagerRegistry $doctrine,Request $request) //get ManagerRegistry for future getting doctrine
     {
-        //create a new  post with title
+        //create a new  post with title amd images
         $post = new Test(); // Test is the entity class
 
         $form = $this->createForm(PostType::class,$post); // PostType that is my form with input field
 
         $form->handleRequest($request); // was called for processing forms data
         if ($form->isSubmitted()){  //check is forms was submitted
+            //entity manager
             $em = $doctrine->getManager(); // get manager for works with doctrine
+            /** @var UploadedFile $file */  //add for uploading files
+            $file = $request->files->get('post')['Attachment']; // get files by (not always key-words from Form(name of field))
+            if ($file){
+                $filename = md5(uniqid()) . '.' . $file->guessClientExtension();//at the first return Hash MD5 , then we get filename with his extension filename.extension photo.jpeg
+                $file->move( // move our file
+                    $this->getParameter('uploads_dir'), // into gir (parameter was declaration in service.yaml - files)
+                    $filename
+                );
+                $post->setImage($filename); // we set image for the database
+            }
             $em->persist($post); // pass object for processing
             $em->flush(); // pass data(all changes) to entity(database)
             return $this->redirect($this->generateUrl('page_get'));
