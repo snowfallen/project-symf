@@ -16,7 +16,7 @@ class PostType extends AbstractType
             ->add('title')
             ->add('save',SubmitType::class,[
                 'attr'=>[
-                    'class' => 'btn btn-primary float-right'
+                    'class' => 'btn-primary float-end m-2'
                 ]
             ])
         ;
