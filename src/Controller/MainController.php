@@ -38,7 +38,6 @@ class MainController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted()){
             $em = $doctrine->getManager();
-            //dump($post);
             $em->persist($post);
             $em->flush();
             return $this->redirect($this->generateUrl('page_get'));
