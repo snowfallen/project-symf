@@ -73,7 +73,8 @@ class MainController extends AbstractController
     #[Route('/show/{id}',name: "show")]
     public function show($id , TestRepository $testRepository) // we must get id into the function variable
     {
-        $post = $testRepository->find($id);// find and get all elements in repo by id
+        $post = $testRepository->findPostWithCategory($id);// find and get all elements in repo by id find($id)
+        dump($post);
         return $this->render('show/show.html.twig',[
             'post' => $post,
         ]);

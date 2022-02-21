@@ -19,6 +19,19 @@ class TestRepository extends ServiceEntityRepository
         parent::__construct($registry, Test::class);
     }
 
+
+    public function findPostWithCategory(int $id) // id of yours category
+    {
+        $qb = $this->createQueryBuilder('post'); // i don't know???
+        $qb->select('post.title') // i don't know???
+            ->innerJoin('post.category','category')// i don't know???
+            ->addSelect('post.id AS title_id')// i don't know???
+            ->addSelect('category.name')// i don't know???
+            ->addSelect('category.id AS cat_id')// i don't know???
+            ->where('post.id = :id') // i don't know???
+            ->setParameter('id',$id); // i don't know???
+        return $qb->getQuery()->getResult(); // i don't know???
+    }
     // /**
     //  * @return Test[] Returns an array of Test objects
     //  */
